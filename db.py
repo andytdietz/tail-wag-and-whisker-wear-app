@@ -59,6 +59,19 @@ def outfits_all():
     ).fetchall()
     return [dict(row) for row in rows]
 
+<<<<<<< HEAD
+
+def outfits_find_by_id(id):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        SELECT * FROM outfits
+        WHERE id = ?
+        """,
+        id,
+    ).fetchone()
+    return dict(row)
+=======
 def outfits_create(name, animal_id, price, image_url):
     conn = connect_to_db()
     row = conn.execute(
@@ -82,3 +95,4 @@ def outfits_destroy_by_id(id):
     )
     conn.commit()
     return {"message": "Outfit deleted meow meow"}
+>>>>>>> 23e6ded3ef8d53a9c606a9438c3203af2a54de94
