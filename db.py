@@ -58,3 +58,15 @@ def outfits_all():
         """
     ).fetchall()
     return [dict(row) for row in rows]
+
+
+def outfits_find_by_id(id):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        SELECT * FROM outfits
+        WHERE id = ?
+        """,
+        id,
+    ).fetchone()
+    return dict(row)
