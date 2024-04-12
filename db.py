@@ -20,7 +20,7 @@ def initial_setup():
           id INTEGER PRIMARY KEY NOT NULL,
           name TEXT,
           animal_id INTEGER,
-          price DECIMAL
+          price DECIMAL,
           image_url TEXT
         );
         """
@@ -58,3 +58,15 @@ def outfits_all():
         """
     ).fetchall()
     return [dict(row) for row in rows]
+
+def outfits_create(name, animal_id, price, image_url):
+    conn = connect_to_db()
+    row = conn.execute(
+        """INSERT INTO outfits (name, animal_id, price, image_url)
+        VALUES (?,?,?,?)
+        RETURNING *
+        """,
+        (name, animal_id, price, image_url),
+    ).fetchone()
+    conn.commit()
+    return dict(row)
