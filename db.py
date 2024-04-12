@@ -70,3 +70,15 @@ def outfits_create(name, animal_id, price, image_url):
     ).fetchone()
     conn.commit()
     return dict(row)
+
+def outfits_destroy_by_id(id):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        DELETE from outfits
+        WHERE id = ?
+        """,
+        id,
+    )
+    conn.commit()
+    return {"message": "Outfit deleted meow meow"}
