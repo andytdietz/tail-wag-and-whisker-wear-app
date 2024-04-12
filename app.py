@@ -20,6 +20,9 @@ def destroy(id):
     return db.outfits_destroy_by_id(id)
 
 
+@app.route("/outfits/<id>.json")
+def show(id):
+    return db.outfits_find_by_id(id)
 
 
 
