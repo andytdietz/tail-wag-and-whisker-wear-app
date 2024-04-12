@@ -59,6 +59,10 @@ def outfits_all():
     ).fetchall()
     return [dict(row) for row in rows]
 
+@app.route("/outfits/<id>.json")
+def show(id):
+    return db.outfits_find_by_id(id)
+
 
 def outfits_find_by_id(id):
     conn = connect_to_db()
