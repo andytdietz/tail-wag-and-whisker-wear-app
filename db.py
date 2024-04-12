@@ -98,15 +98,30 @@ def outfits_destroy_by_id(id):
     return {"message": "Outfit deleted meow meow"}
 
 
-def outfits_update_by_id(id, name, animal_id, price, image_url):
+def outfits_update_by_id(id, name=None, animal_id=None, price=None, image_url=None):
     conn = connect_to_db() 
+    current_values = conn.execute(
+        """
+        SELECT name, animal_id, price, image_url FROM outfits WHERE id = ?
+        """,
+        (id,),
+    ).fetchone()
+    
+    updated_values = {
+        'name': name if name is not None else current_values['name'],
+        'animal_id': animal_id if animal_id is not None else current_values['animal_id'],
+        'price': price if price is not None else current_values['price'],
+        'image_url': image_url if image_url is not None else current_values['image_url'],
+    }
+
     row = conn.execute(
         """
-       UPDATE outfits SET name = ?, animal_id = ?, price = ?, image_url = ?
-       WHERE id = ?  
-       RETURNING *
+        UPDATE outfits SET name = ?, animal_id = ?, price = ?, image_url = ?
+        WHERE id = ?  
+        RETURNING *
         """,
-        (name, animal_id, price, image_url, id),
+        (updated_values['name'], updated_values['animal_id'], updated_values['price'], updated_values['image_url'], id),
     ).fetchone()
+    
     conn.commit()
     return dict(row)
