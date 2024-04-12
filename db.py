@@ -94,3 +94,17 @@ def outfits_destroy_by_id(id):
     )
     conn.commit()
     return {"message": "Outfit deleted meow meow"}
+
+
+def outfits_update_by_id(id, name, animal_id, price, image_url):
+    conn = connect_to_db() 
+    row = conn.execute(
+        """
+       UPDATE outfits SET name = ?, animal_id = ?, price = ?, image_url = ?
+       WHERE id = ?  
+       RETURNING *
+        """,
+        (name, animal_id, price, image_url, id),
+    ).fetchone()
+    conn.commit()
+    return dict(row)
