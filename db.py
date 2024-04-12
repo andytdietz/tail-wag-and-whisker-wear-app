@@ -11,7 +11,7 @@ def initial_setup():
     conn = connect_to_db()
     conn.execute(
         """
-        DROP TABLE IF EXISTS clothing;
+        DROP TABLE IF EXISTS outfits;
         """
     )
     conn.execute(
@@ -35,7 +35,7 @@ def initial_setup():
     ]
     conn.executemany(
         """
-        INSERT INTO clothing (name, animal_id, price)
+        INSERT INTO outfits (name, animal_id, price)
         VALUES (?,?,?)
         """,
         outfits_seed_data,
